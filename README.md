@@ -1,5 +1,4 @@
-# brew-controller
-Home Brewery Control Panel
+# Home Brewery Control Panel
 
 The aim of this project is to create a open source control panel that
 can be made much cheaper than your average ElectricBrewery.com control
