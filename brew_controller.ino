@@ -48,8 +48,6 @@ int tempDelay;
 #define CLK 4
 #define DATA 2
 
-const byte numberOfChips = 2;
-
 const byte digitsHex[]= {0x3F, 0x06, 0x5B, 0x4F, 0x66, 0x6D, 0x7D, 0x07, 0x7F, 0x67};
 const byte digitsBits[] = 
 {
