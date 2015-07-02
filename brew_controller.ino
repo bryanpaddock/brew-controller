@@ -94,7 +94,7 @@ const int ssrBK1 = 12;
 //const int ssrBK2 = 13;
 
 boolean ssrHLTstate = false;
-boolean ssrBK1state = false;
+boolean ssrBKstate = false;
 
 /** switches **/
 
@@ -285,7 +285,7 @@ void runBKElements()
   }
   
   // if bkDutyTime has not elapsed yet, keep element on. else turn off
-  if ((currentMillis - bkDutytTimer >= bkOnDutyTime) && (ssrBK1state))
+  if ((currentMillis - bkDutytTimer >= bkOnDutyTime) && (ssrBKstate))
   {
     // switch off element
     SwitchOffBK();
@@ -293,7 +293,7 @@ void runBKElements()
     // log when it switched off    
     bkDutytTimer += bkOnDutyTime;
   }
-  else if ((currentMillis - bkDutytTimer >= bkOffDutyTime) && (!ssrBK1state) )
+  else if ((currentMillis - bkDutytTimer >= bkOffDutyTime) && (!ssrBKstate) )
   {
     // switch on elements
     SwitchOnBK(numberOfElements);
@@ -319,7 +319,7 @@ void checkSwitches()
 
 void SwitchOnBK(int elements)
 {
-  ssrBK1state = true;
+  ssrBKstate = true;
   digitalWrite(ssrBK1, HIGH);
   
   //if (elements > 1)
@@ -328,7 +328,7 @@ void SwitchOnBK(int elements)
 
 void SwitchOffBK()
 {
-  ssrBK1state = false;
+  ssrBKstate = false;
   digitalWrite(ssrBK1, LOW);
   //digitalWrite(ssrBK2, LOW);
 }
