@@ -117,16 +117,9 @@ const int bkDutyPeriod = 10000;
 unsigned long currentMillis;
 unsigned long bkDutytTimer;
 
-void setup()
+
+void setupTempProbes()
 {
-  // set up the shift registers for the 7segments
-  pinMode(LATCH, OUTPUT);
-  pinMode(CLK, OUTPUT);
-  pinMode(DATA, OUTPUT);
-
-  if (DEBUG)
-    Serial.begin(9600);
-
   // set up temp sensors
   sensors.begin();
 
@@ -144,10 +137,26 @@ void setup()
   {
     sensors.setResolution(HLTprobe, resolution);
     HLTprobeEnabled = true;
+
+    for (int thisReading = 0; thisReading < numReadings; thisReading++)
+      HLTreadings[thisReading] = 0;
   }
   
   // initial temp request
   sensors.requestTemperatures();
+}
+
+void setup()
+{
+  // set up the shift registers for the 7segments
+  pinMode(LATCH, OUTPUT);
+  pinMode(CLK, OUTPUT);
+  pinMode(DATA, OUTPUT);
+
+  if (DEBUG)
+    Serial.begin(9600);
+
+  setupTempProbes();
 
   pinMode(ssrHLT, OUTPUT);
   pinMode(ssrBK1, OUTPUT);
