@@ -373,8 +373,30 @@ void getTemps()
 {
   if ( currentMillis - lastTempRequest >= tempDelay )
   {
-    // get temp of HLT probe
-    HLTlongTemp = sensors.getTempC(HLTprobe);
+    if (HLTprobeEnabled)
+    {
+      // subtract the last reading:
+      HLTtotal = HLTtotal - HLTreadings[HLTindex];
+
+      // get temp of HLT probe
+      HLTreadings[HLTindex] = sensors.getTempC(HLTprobe);
+
+      // add the reading to the total:
+      HLTtotal = HLTtotal + HLTreadings[HLTindex];
+
+      // increment htl index
+      HLTindex += 1;
+
+      // restart if we reached max readings
+      if (HLTindex >= numReadings)
+      {
+        HLTgotFirstAverage = true;
+        HLTindex = 0;
+      }
+
+      // calculate the average:
+      HLTaverage = HLTtotal / numReadings;
+    }
 
     // request temperatures again
     sensors.requestTemperatures();
