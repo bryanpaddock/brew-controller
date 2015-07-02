@@ -204,7 +204,7 @@ void runHLTPID()
   }
 
   // set input to long temp
-  Input = HLTlongTemp;
+  Input = HLTaverage;
   Setpoint = HLTSetPoint;
   
   // adapt the tunings based on how far the temp is from setpoint
