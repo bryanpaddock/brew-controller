@@ -415,8 +415,16 @@ void displayTemp()
     return;
   }
  
-  // default to write temp   
-  writeNumber((int)HLTlongTemp);
+  // only write temp if we have enough
+  // values to have a proper average
+  if ( (HLTgotFirstAverage) && (HLTprobeEnabled) )
+  {
+    writeNumber((int)HLTaverage);
+    return;
+  }
+
+  // else write 00
+  writeNumber(00);
 }
 
 void writeNumber(int number)
