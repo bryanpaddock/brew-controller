@@ -18,7 +18,7 @@
 #include <DallasTemperature.h>
 #include <PID_v1.h>
 
-const boolean DEBUG = true;
+const boolean DEBUG = false;
 
 /** temperature probes **/
 
