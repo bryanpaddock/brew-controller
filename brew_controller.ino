@@ -22,14 +22,24 @@ const boolean DEBUG = false;
 
 /** temperature probes **/
 
+// smooth the temperature so the ssr
+// doesnt switch too much while hovering
+// around the Setpoint
+
+const int numReadings = 10;
+
 #define ONE_WIRE_BUS 8
 OneWire oneWire(ONE_WIRE_BUS);
 DallasTemperature sensors(&oneWire);
 
 DeviceAddress HLTprobe = { 0x28, 0xFF, 0xBF, 0x3D, 0x64, 0x14, 0x04, 0x30 };
 int HLTprobeEnabled = false;
-double HLTlongTemp;
-int HLTtemp;
+
+int HLTreadings[numReadings];      // the readings from the probe
+int HLTindex = 0;                  // the index of the current reading
+int HLTtotal = 0;                  // the running total
+int HLTaverage = 0;                // the average
+int HLTgotFirstAverage = 0;       // only print temp once we have enough values
 
 // ds18b20 takes time to respond. bypass that with a timer.
 unsigned long lastTempRequest;
