@@ -26,26 +26,24 @@ const uint8_t scroll_bar[5][8] = {
 };
 
 byte upArrow[] = {
-  B00000,
-  B00100,
-  B01110,
-  B10101,
-  B00100,
-  B00100,
-  B00100,
-  B00000
-};
+    B00000,
+    B00100,
+    B01110,
+    B10101,
+    B00100,
+    B00100,
+    B00100,
+    B00000};
 
 byte downArrow[] = {
-  B00000,
-  B00000,
-  B00100,
-  B00100,
-  B10101,
-  B01110,
-  B00100,
-  B00000
-};
+    B00000,
+    B00000,
+    B00100,
+    B00100,
+    B10101,
+    B01110,
+    B00100,
+    B00000};
 
 // lcd object
 // LiquidCrystal_I2C lcd(0x27);  // Set the LCD I2C address
@@ -346,48 +344,6 @@ void LCDML_CONTROL_loop()
 #error _LCDML_CONTROL_cfg is not defined or not in range
 #endif
 
-/* ===================================================================== *
- *                                                                       *
- * DISPLAY SYSTEM                                                        *
- *                                                                       *
- * ===================================================================== *
- * every "disp menu function" needs three functions
- * - void LCDML_DISP_setup(func_name)
- * - void LCDML_DISP_loop(func_name)
- * - void LCDML_DISP_loop_end(func_name)
- *
- * EXAMPLE CODE:
-    void LCDML_DISP_setup(..menu_func_name..)
-    {
-      // setup
-      // is called only if it is started
-
-      // starts a trigger event for the loop function every 100 millisecounds
-      LCDML_DISP_triggerMenu(100);
-    }
-
-    void LCDML_DISP_loop(..menu_func_name..)
-    {
-      // loop
-      // is called when it is triggert
-      // - with LCDML_DISP_triggerMenu( millisecounds )
-      // - with every button status change
-
-      // check if any button is presed (enter, up, down, left, right)
-      if(LCDML_BUTTON_checkAny()) {
-        LCDML_DISP_funcend();
-      }
-    }
-
-    void LCDML_DISP_loop_end(..menu_func_name..)
-    {
-      // loop end
-      // this functions is ever called when a DISP function is quit
-      // you can here reset some global vars or do nothing
-    }
- * ===================================================================== *
- */
-
 // =====================================================================
 //
 // Output function
@@ -396,7 +352,6 @@ void LCDML_CONTROL_loop()
 
 /* ******************************************************************** */
 void LCDML_lcd_menu_display()
-/* ******************************************************************** */
 {
     // check if menu needs an update
     if (LCDML_DISP_update())
@@ -511,45 +466,15 @@ void LCDML_lcd_menu_clear()
     lcd.setCursor(0, 0);
 }
 
-/* ===================================================================== *
- *                                                                       *
- * BACKEND SYSTEM                                                        *
- *                                                                       *
- * ===================================================================== *
- * every "backend function" needs three functions
- * - void LCDML_BACK_setup(..func_name..)
- * - void LCDML_BACK_loop(..func_name..)
- * - void LCDML_BACK_stable(..func_name..)
- *
- * - every BACKEND function can be stopped and started
- * EXAMPLE CODE:
-    void LCDML_BACK_setup(LCDML_BACKEND_control)
-    {
-      // setup
-      // is called only if it is started or restartet (reset+start)
-    }
-
-    boolean LCDML_BACK_loop(LCDML_BACKEND_control)
-    {
-      // runs in loop
-
-
-      return false;
-    }
-
-    void LCDML_BACK_stable(LCDML_BACKEND_control)
-    {
-      // stable stop
-      // is called when a backend function is stopped with stopStable
-    }
- * ===================================================================== *
- */
-
-// menus
+// *********************************************************************
+// MENU DEFINITIONS
+// *********************************************************************
 
 // *********************************************************************
+// INFO
+// *********************************************************************
+
 void LCDML_DISP_setup(LCDML_FUNC_information)
-// *********************************************************************
 {
     lcd.setCursor(0, 0);
     lcd.print(F("Brooklyn Brewery"));
@@ -560,26 +485,21 @@ void LCDML_DISP_setup(LCDML_FUNC_information)
 
 void LCDML_DISP_loop(LCDML_FUNC_information)
 {
-    // loop function, can be run in a loop when LCDML_DISP_triggerMenu(xx) is set
-    // the quit button works in every DISP function without any checks; it starts the loop_end function
-
     if (LCDML_BUTTON_checkAny())
     {
-        // check if any button is presed (enter, up, down, left, right)
-        // LCDML_DISP_funcend calls the loop_end function
         LCDML_DISP_funcend();
     }
 }
 
 void LCDML_DISP_loop_end(LCDML_FUNC_information)
 {
-    // this functions is ever called when a DISP function is quit
-    // you can here reset some global vars or do nothing
 }
 
 // *********************************************************************
-void LCDML_DISP_setup(LCDML_FUNC_settings)
+// SETTINGS
 // *********************************************************************
+
+void LCDML_DISP_setup(LCDML_FUNC_settings)
 {
     // setup function
     lcd.setCursor(0, 0);
@@ -590,45 +510,29 @@ void LCDML_DISP_setup(LCDML_FUNC_settings)
 
 void LCDML_DISP_loop(LCDML_FUNC_settings)
 {
-    // loop function, can be run in a loop when LCDML_DISP_triggerMenu(xx) is set
-    // the quit button works in every DISP function without any checks; it starts the loop_end function
-
     if (LCDML_BUTTON_checkAny())
     {
-        // check if any button is presed (enter, up, down, left, right)
-        // LCDML_DISP_funcend calls the loop_end function
         LCDML_DISP_funcend();
     }
 }
 
 void LCDML_DISP_loop_end(LCDML_FUNC_settings)
 {
-    // this functions is ever called when a DISP function is quit
-    // you can here reset some global vars or do nothing
 }
 
 // *********************************************************************
-void LCDML_DISP_setup(LCDML_FUNC_brew)
+// BREW
 // *********************************************************************
-{
 
-}
-
-void LCDML_DISP_loop(LCDML_FUNC_brew)
-{
-    // loop function, can be run in a loop when LCDML_DISP_triggerMenu(xx) is set
-    // the quit button works in every DISP function without any checks; it starts the loop_end function
-}
-
-void LCDML_DISP_loop_end(LCDML_FUNC_brew)
-{
-    // this functions is ever called when a DISP function is quit
-    // you can here reset some global vars or do nothing
-}
+void LCDML_DISP_setup(LCDML_FUNC_brew) {}
+void LCDML_DISP_loop(LCDML_FUNC_brew) {}
+void LCDML_DISP_loop_end(LCDML_FUNC_brew) {}
 
 // *********************************************************************
+// STRIKE
+// *********************************************************************
+
 void LCDML_DISP_setup(LCDML_FUNC_strike)
-// *********************************************************************
 {
     enableStrike();
 }
@@ -663,32 +567,26 @@ void LCDML_DISP_loop(LCDML_FUNC_strike)
 
     if (LCDML_BUTTON_checkAny())
     {
-        // check if any button is presed (enter, up, down, left, right)
-        // LCDML_DISP_funcend calls the loop_end function
         LCDML_DISP_funcend();
     }
 }
 
 void LCDML_DISP_loop_end(LCDML_FUNC_strike)
 {
-    // this functions is ever called when a DISP function is quit
-    // you can here reset some global vars or do nothing
-
     disableStrike();
 }
 
 // *********************************************************************
-void LCDML_DISP_setup(LCDML_FUNC_boil)
+// BOIL
 // *********************************************************************
+
+void LCDML_DISP_setup(LCDML_FUNC_boil)
 {
     enableBoil();
 }
 
 void LCDML_DISP_loop(LCDML_FUNC_boil)
 {
-    // loop function, can be run in a loop when LCDML_DISP_triggerMenu(xx) is set
-    // the quit button works in every DISP function without any checks; it starts the loop_end function
-
     lcd.setCursor(0, 0);
     lcd.print("Temp: " + String(getBoilTemp()) + (char)223 + "C            ");
     lcd.setCursor(0, 1);
@@ -714,16 +612,11 @@ void LCDML_DISP_loop(LCDML_FUNC_boil)
 
     if (LCDML_BUTTON_checkAny())
     {
-        // check if any button is presed (enter, up, down, left, right)
-        // LCDML_DISP_funcend calls the loop_end function
         LCDML_DISP_funcend();
     }
 }
 
 void LCDML_DISP_loop_end(LCDML_FUNC_boil)
 {
-    // this functions is ever called when a DISP function is quit
-    // you can here reset some global vars or do nothing
-
     disableBoil();
 }
