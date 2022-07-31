@@ -8,11 +8,13 @@ I'm simply uploading it here so that anyone else can use it if they please
 or learn from it (or better it!)
 
 The current set up I have is:
- - Arduino
+ - Wemos R1 D2
  - DS18B20 Temperature probes
  - Fotek 25A SSR's
- - 12V power supply for SSRs (not necessary. arduino can power the SSR's itself)
- - 7segment LCD via shift register
+ - 12V power supply
+ - 16x2 LCD screen via I2C
+ - Wifi connectivity
+ - MQTT publishing coming
 
 The current objective of the control panel is to:
  - Heat and maintain temp of strike/sparge water.
